@@ -7,21 +7,26 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import cs.edu.pacificu.group4Boomshine.*;
+import group4Boomshine.BoomshineModel;
+import group4Boomshine.BoomshinePresenter;
 
 public class BoomshineView extends View {
 
+  private final boolean NO_RESTART = false;
+  private final boolean RESTART = true;
+
   private BoomshinePresenter mPresenter;
-  private BoomshineModel mModel;
+  private long mSeed;
   private Paint mBackground = new Paint();
 
-  public BoomshineView (Context context) {
+  public BoomshineView (Context context, long seed) {
     super (context);
-    Log.d("BoomshineView", "ConstructorCall");
+    mSeed = seed;
+
     setFocusable(true);
     setFocusableInTouchMode(true);
-    mPresenter = new BoomshinePresenter(this, mModel);
-    mPresenter.newGame();
+
+    mPresenter = new BoomshinePresenter(seed, getHeight(), getWidth());
   }
 
   public void onCreate() {};
