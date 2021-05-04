@@ -10,10 +10,10 @@
     <string name="sBy">By:</string>
     <string name="sAuthors">John Duong and Duane Stokes</string>
     <string name="sRules">Rules:</string>
-    <string name="sRuleOne">There are a certain number of balls bouncing around the screen.</string>
+    <string name="sRuleOne">There will be 2 balls per level.</string>
     <string name="sRuleTwo">To pass the level, you must hit half of the number of balls on the screen.</string>
-    <string name="sRuleThree">To hit balls, you must tap the screen where you think it will hit the most balls.</string>
-    <string name="sRuleFour">The ball you place will expand and contract until it disappears.</string>
-    <string name="sRuleFive">When the ball you placed disappears, the number of balls you hit is your score.</string>
+    <string name="sRuleThree">To hit balls, you must tap the screen where a bomb will appear.</string>
+    <string name="sRuleFour">The bomb will explode and hit other balls in its vicinity</string>
+    <string name="sRuleFive">If you hit enough balls, your score will be accumulated and you go to the next level</string>
     <string name="sRuleSix">You get three tries to get the number of balls, if not the game restarts.</string>
 </resources>
