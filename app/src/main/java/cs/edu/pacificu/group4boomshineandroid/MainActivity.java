@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mBoomshineView = new BoomshineView(this, 0);
+    mBoomshineView = new BoomshineView(this, 0, "normal");
     setContentView(mBoomshineView);
   }
 
@@ -32,6 +32,16 @@ public class MainActivity extends AppCompatActivity {
   {
     switch (menuItem.getItemId ())
     {
+      case R.id.menuNewGame:
+        Log.d("onOptoinsItemSelected", "New Game");
+        newGame(0, "normal");
+        return true;
+
+      case R.id.menuNightmareMode:
+        Log.d("OnOptionsItemSelected", "New Game, Nightmare Mode");
+        newGame(0, "nightmare");
+        return true;
+
       case R.id.about:
         Log.d ("onOptionsItemSelected", "About");
         startActivity (new Intent (this, AboutActivity.class));
@@ -45,5 +55,10 @@ public class MainActivity extends AppCompatActivity {
       default:
         return super.onOptionsItemSelected (menuItem);
     }
+  }
+
+  public void newGame (int seed, String mode) {
+    mBoomshineView = new BoomshineView(this, seed, mode);
+    setContentView(mBoomshineView);
   }
 }

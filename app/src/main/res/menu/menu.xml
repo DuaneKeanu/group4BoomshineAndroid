@@ -4,40 +4,26 @@
 
     <item
         android:id="@+id/menuNewGame"
+        android:onClick="onMenuItemSelected"
         android:orderInCategory="0"
         app:showAsAction="never"
-        android:title="@string/sNewGame">
-        <menu>
-            <item
-                android:id="@+id/easyDifficulty"
-                android:onClick="onMenuItemSelected"
-                android:orderInCategory="0"
-                app:showAsAction="never"
-                android:title="@string/sEasy"/>
-            <item
-                android:id="@+id/mediumDifficulty"
-                android:onClick="onMenuItemSelected"
-                android:orderInCategory="1"
-                app:showAsAction="never"
-                android:title="@string/sMedium"/>
-            <item
-                android:id="@+id/hardDifficulty"
-                android:onClick="onMenuItemSelected"
-                android:orderInCategory="2"
-                app:showAsAction="never"
-                android:title="@string/sHard"/>
-        </menu>
-    </item>
+        android:title="@string/sNewGame" />
+    <item
+        android:id="@+id/menuNightmareMode"
+        android:onClick="onMenuItemSelected"
+        android:orderInCategory="1"
+        app:showAsAction="never"
+        android:title="@string/sNightmareMode" />
     <item
         android:id="@+id/help"
         android:onClick="onMenuItemSelected"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         app:showAsAction="never"
         android:title="@string/sHelp" />
     <item
         android:id="@+id/about"
         android:onClick="onMenuItemSelected"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/sAbout"
         app:showAsAction="never" />
 </menu>
