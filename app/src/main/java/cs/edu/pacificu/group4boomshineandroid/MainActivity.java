@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mBoomshineView = new BoomshineView(this);
+    mBoomshineView = new BoomshineView(this, 0);
     setContentView(mBoomshineView);
   }
 

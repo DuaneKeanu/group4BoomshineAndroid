@@ -37,7 +37,9 @@ public class BoomshineView extends View {
     setFocusable(true);
     setFocusableInTouchMode(true);
 
-    mPresenter = new BoomshinePresenter(seed, getHeight(), getWidth());
+    mPresenter = new BoomshinePresenter(seed);
+    mPresenter.setHeight (context.getResources ().getDisplayMetrics ().heightPixels);
+    mPresenter.setWidth (context.getResources ().getDisplayMetrics ().widthPixels);
     mPresenter.newGame();
     mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
   }
@@ -49,8 +51,10 @@ public class BoomshineView extends View {
     for (int i = 0; i < mBoomshineBalls.size(); i++) {
       mBallColor.setColor(Color.RED);
       canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mBallColor);
-      mBoomshineBalls.get(i).move();
+      mBoomshineBalls.get(i).moveAndBounce();
     }
+
+    invalidate ();
   }
 
   public void onWin () {
