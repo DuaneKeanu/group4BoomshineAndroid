@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">group4BoomshineAndroid</string>
     <string name="sNewGame">New Game</string>
-    <string name="sEasy">Easy</string>
-    <string name="sMedium">Medium</string>
-    <string name="sHard">Hard</string>
+    <string name="sNightmareMode">Nightmare Mode</string>
     <string name="sHelp">Help</string>
     <string name="sAbout">About</string>
     <string name="sVersion">Boomshine Version 1.0</string>
