@@ -116,7 +116,7 @@ public class BoomshineView extends View {
 
             if (!mbBallsHitGone)
             {
-              mPresenter.shrinkBalls();
+              mPresenter.shrinkBallsHit();
               mbBallsHitGone = mPresenter.ballsGone ();
             }
 
