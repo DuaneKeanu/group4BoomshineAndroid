@@ -39,9 +39,10 @@ public class BoomshineView extends View {
   private int mWidth;
 
   private boolean mbBombDown;
-  private boolean mbBallsGone;
+  private boolean mbBallsHitGone;
+  private boolean mbAllBallsGone;
   private boolean mbBallsMaxSize;
-
+  private boolean mbBombMaxSize;
 
 
   public BoomshineView (Context context, long seed, String mode) {
@@ -53,8 +54,10 @@ public class BoomshineView extends View {
 
     mPresenter = new BoomshinePresenter(seed);
     mbBombDown = false;
-    mbBallsGone = false;
+    mbBallsHitGone = false;
     mbBallsMaxSize = false;
+    mbBallsHitGone = false;
+    mbBombMaxSize = false;
   }
 
   protected void onDraw (Canvas canvas) {
@@ -87,25 +90,40 @@ public class BoomshineView extends View {
       {
         mBomb = mPresenter.getBomb();
         canvas.drawCircle((float) mBomb.getX(), (float) mBomb.getY(), (float) mBomb.getRadius(), mBallColor);
-        mPresenter.expandBomb();
-        mPresenter.stopBalls();
 
-        if (mPresenter.isBombMaxSize())
+        if (!mbBombMaxSize)
         {
-          mPresenter.hitBalls();
+          mPresenter.expandBomb();
+          mbBombMaxSize = mPresenter.isBombMaxSize();
+        }
 
+        if (mbBombMaxSize)
+        {
           if (!mbBallsMaxSize)
           {
+            mPresenter.hitBalls();
+            mPresenter.stopBallsHit();
             mPresenter.expandBalls();
             mbBallsMaxSize = mPresenter.ballsMaxSize();
           }
 
           if (mbBallsMaxSize)
           {
-            if (!mbBallsGone)
+            if (!mPresenter.bombGone())
+            {
+              mPresenter.shrinkBomb();
+            }
+
+            if (!mbBallsHitGone)
             {
               mPresenter.shrinkBalls();
-              mbBallsGone = mPresenter.ballsGone ();
+              mbBallsHitGone = mPresenter.ballsGone ();
+            }
+
+            if (mbBallsHitGone)
+            {
+              mPresenter.stopAllBalls();
+              mPresenter.shrinkAllBalls ();
             }
           }
         }
