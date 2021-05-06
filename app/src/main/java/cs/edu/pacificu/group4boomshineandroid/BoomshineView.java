@@ -33,11 +33,15 @@ public class BoomshineView extends View {
   private ArrayList<BoomshineBall> mBoomshineBalls;
   private ArrayList<Paint> mBallColors = new ArrayList<Paint>();
   private Canvas mCanvas;
-  private boolean mbBombDown;
   private ExpandingBall mBomb;
 
   private int mHeight;
   private int mWidth;
+
+  private boolean mbBombDown;
+  private boolean mbBallsGone;
+  private boolean mbBallsMaxSize;
+
 
 
   public BoomshineView (Context context, long seed, String mode) {
@@ -49,6 +53,8 @@ public class BoomshineView extends View {
 
     mPresenter = new BoomshinePresenter(seed);
     mbBombDown = false;
+    mbBallsGone = false;
+    mbBallsMaxSize = false;
   }
 
   protected void onDraw (Canvas canvas) {
@@ -82,6 +88,27 @@ public class BoomshineView extends View {
         mBomb = mPresenter.getBomb();
         canvas.drawCircle((float) mBomb.getX(), (float) mBomb.getY(), (float) mBomb.getRadius(), mBallColor);
         mPresenter.expandBomb();
+        mPresenter.stopBalls();
+
+        if (mPresenter.isBombMaxSize())
+        {
+          mPresenter.hitBalls();
+
+          if (!mbBallsMaxSize)
+          {
+            mPresenter.expandBalls();
+            mbBallsMaxSize = mPresenter.ballsMaxSize();
+          }
+
+          if (mbBallsMaxSize)
+          {
+            if (!mbBallsGone)
+            {
+              mPresenter.shrinkBalls();
+              mbBallsGone = mPresenter.ballsGone ();
+            }
+          }
+        }
       }
     }
 
@@ -118,7 +145,6 @@ public class BoomshineView extends View {
       mPresenter.bomb (event.getX(), event.getY ());
       mBallColor.setColor (Color.YELLOW);
       mbBombDown = true;
-
     }
 
     return true;
