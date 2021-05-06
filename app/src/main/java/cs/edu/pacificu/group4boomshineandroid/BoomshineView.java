@@ -16,12 +16,15 @@ import java.util.Random;
 
 import group4Boomshine.BoomshineBall;
 import group4Boomshine.BoomshinePresenter;
+import group4Boomshine.BoundedMovingBall;
 import group4Boomshine.ExpandingBall;
 
 public class BoomshineView extends View {
 
   private final boolean NO_RESTART = false;
   private final boolean RESTART = true;
+  private final boolean BOMB = true;
+  private final boolean NO_BOMB = false;
 
   private BoomshinePresenter mPresenter;
   private long mSeed;
@@ -29,8 +32,13 @@ public class BoomshineView extends View {
   private Paint mBallColor = new Paint();
   private ArrayList<BoomshineBall> mBoomshineBalls;
   private ArrayList<Paint> mBallColors = new ArrayList<Paint>();
-  private ExpandingBall mBomb = new ExpandingBall(0, 0, 0);
   private Canvas mCanvas;
+  private boolean mbBombDown;
+  private ExpandingBall mBomb;
+
+  private int mHeight;
+  private int mWidth;
+
 
   public BoomshineView (Context context, long seed, String mode) {
     super (context);
@@ -40,24 +48,42 @@ public class BoomshineView extends View {
     setFocusableInTouchMode(true);
 
     mPresenter = new BoomshinePresenter(seed);
-    mPresenter.setHeight (context.getResources ().getDisplayMetrics ().heightPixels);
-    mPresenter.setWidth (context.getResources ().getDisplayMetrics ().widthPixels);
-    mPresenter.newGame();
-    mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
-    setColors();
+    mbBombDown = false;
   }
 
   protected void onDraw (Canvas canvas) {
     mCanvas = canvas;
     mBackground.setColor (getResources().getColor(R.color.cNavy));
     canvas.drawRect(0, 0, getWidth(), getHeight(), mBackground);
-    mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
-    for (int i = 0; i < mBoomshineBalls.size(); i++) {
-      canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mBallColors.get(i));
-      mBoomshineBalls.get(i).moveAndBounce();
+
+    if (!mPresenter.gameStatus())
+    {
+      mHeight = getHeight();
+      mWidth = getWidth();
+
+      mPresenter.setHeight (mHeight);
+      mPresenter.setWidth (mWidth);
+
+      mPresenter.newGame();
+      mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
+      setColors();
     }
-    canvas.drawCircle((float) mBomb.getX(), (float) mBomb.getY(), (float) mBomb.getRadius(), mBallColor);
-    mBomb.expand();
+    else
+    {
+      mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
+
+      for (int i = 0; i < mBoomshineBalls.size(); i++) {
+        canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mBallColors.get(i));
+        mBoomshineBalls.get(i).moveAndBounce();
+      }
+
+      if (mbBombDown)
+      {
+        mBomb = mPresenter.getBomb();
+        canvas.drawCircle((float) mBomb.getX(), (float) mBomb.getY(), (float) mBomb.getRadius(), mBallColor);
+        mPresenter.expandBomb();
+      }
+    }
 
     invalidate ();
   }
@@ -81,14 +107,20 @@ public class BoomshineView extends View {
 
   }
 
-  public boolean onTouchEvent (MotionEvent motionEvent) {
-    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-      int x = (int) motionEvent.getX();
-      int y = (int) motionEvent.getY();
-      mBomb.setPosition(x, y);
-      mBomb.setRadius(20);
-      mBallColor.setColor(Color.WHITE);
+  public boolean onTouchEvent (MotionEvent event) {
+    if (event.getAction () != MotionEvent.ACTION_DOWN)
+    {
+      return super.onTouchEvent (event);
     }
+
+    if (!mbBombDown)
+    {
+      mPresenter.bomb (event.getX(), event.getY ());
+      mBallColor.setColor (Color.YELLOW);
+      mbBombDown = true;
+
+    }
+
     return true;
   }
 }
