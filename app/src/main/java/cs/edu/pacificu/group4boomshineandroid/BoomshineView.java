@@ -30,14 +30,16 @@ public class BoomshineView extends View {
   private long mSeed;
   private Paint mBackground = new Paint();
   private Paint mBallColor = new Paint();
+  private Paint mNightmareColor = new Paint();
   private ArrayList<BoomshineBall> mBoomshineBalls;
   private ArrayList<Paint> mBallColors = new ArrayList<Paint>();
-  private Canvas mCanvas;
   private ExpandingBall mBomb;
 
   private int mHeight;
   private int mWidth;
+  private int mNightmare = 0;
 
+  private boolean mbNightmareTrigger = false;
   private boolean mbBombDown;
   private boolean mbBallsHitGone;
   private boolean mbAllBallsGone;
@@ -58,12 +60,30 @@ public class BoomshineView extends View {
     mbBallsMaxSize = false;
     mbBallsHitGone = false;
     mbBombMaxSize = false;
+
+    if (mode.equals("nightmare")) {
+      mPresenter.setNightmareOn();
+    }
   }
 
   protected void onDraw (Canvas canvas) {
-    mCanvas = canvas;
     mBackground.setColor (getResources().getColor(R.color.cNavy));
     canvas.drawRect(0, 0, getWidth(), getHeight(), mBackground);
+    mNightmareColor.setColor (getResources().getColor(R.color.cNavy));
+    if (mPresenter.getMode()) {
+      mNightmare++;
+      if (!mbBombDown) {
+        if (mNightmare % 100 == 0) {
+          mbNightmareTrigger = true;
+        }
+        if (mNightmare % 200 == 0) {
+          mbNightmareTrigger = false;
+        }
+      }
+      else {
+        mbNightmareTrigger = false;
+      }
+    }
 
     if (!mPresenter.gameStatus())
     {
@@ -82,8 +102,20 @@ public class BoomshineView extends View {
       mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
 
       for (int i = 0; i < mBoomshineBalls.size(); i++) {
-        canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mBallColors.get(i));
-        mBoomshineBalls.get(i).moveAndBounce();
+        if (mPresenter.getMode()) {
+          if (mbNightmareTrigger) {
+            canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mNightmareColor);
+            mBoomshineBalls.get(i).moveAndBounce();
+          }
+          else {
+            canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mBallColors.get(i));
+            mBoomshineBalls.get(i).moveAndBounce();
+          }
+        }
+        else {
+          canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mBallColors.get(i));
+          mBoomshineBalls.get(i).moveAndBounce();
+        }
       }
 
       if (mbBombDown)
@@ -136,8 +168,6 @@ public class BoomshineView extends View {
   public void setColors () {
     for (int i = 0; i < mBoomshineBalls.size(); i++) {
       Random random = new Random();
-      //int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
-      //mBallColor.setColor(color);
       mBallColors.add(new Paint());
       mBallColors.get(i).setARGB(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
       invalidate();

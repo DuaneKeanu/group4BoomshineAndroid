@@ -14,4 +14,7 @@
     <string name="sRuleFour">The bomb will explode and hit other balls in its vicinity</string>
     <string name="sRuleFive">If you hit enough balls, your score will be accumulated and you go to the next level</string>
     <string name="sRuleSix">You get three tries to get the number of balls, if not the game restarts.</string>
+    <string name="sBottomBar">Bottom Bar</string>
+    <string name="sHighScore">High Score:</string>
+    <string name="sScore">Score:</string>
 </resources>
