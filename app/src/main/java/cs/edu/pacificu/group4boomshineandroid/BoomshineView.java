@@ -45,6 +45,7 @@ public class BoomshineView extends View {
   private boolean mbAllBallsGone;
   private boolean mbBallsMaxSize;
   private boolean mbBombMaxSize;
+  private boolean mbBombGone;
 
 
   public BoomshineView (Context context, long seed, String mode) {
@@ -60,6 +61,8 @@ public class BoomshineView extends View {
     mbBallsMaxSize = false;
     mbBallsHitGone = false;
     mbBombMaxSize = false;
+    mbAllBallsGone = false;
+    mbBombGone = false;
 
     if (mode.equals("nightmare")) {
       mPresenter.setNightmareOn();
@@ -70,14 +73,12 @@ public class BoomshineView extends View {
     mBackground.setColor (getResources().getColor(R.color.cNavy));
     canvas.drawRect(0, 0, getWidth(), getHeight(), mBackground);
     mNightmareColor.setColor (getResources().getColor(R.color.cNavy));
+
     if (mPresenter.getMode()) {
       mNightmare++;
       if (!mbBombDown) {
-        if (mNightmare % 100 == 0) {
-          mbNightmareTrigger = true;
-        }
         if (mNightmare % 200 == 0) {
-          mbNightmareTrigger = false;
+          mbNightmareTrigger = !mbNightmareTrigger;
         }
       }
       else {
@@ -102,17 +103,21 @@ public class BoomshineView extends View {
       mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
 
       for (int i = 0; i < mBoomshineBalls.size(); i++) {
-        if (mPresenter.getMode()) {
-          if (mbNightmareTrigger) {
+        if (mPresenter.getMode())
+        {
+          if (mbNightmareTrigger)
+          {
             canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mNightmareColor);
             mBoomshineBalls.get(i).moveAndBounce();
           }
-          else {
+          else
+          {
             canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mBallColors.get(i));
             mBoomshineBalls.get(i).moveAndBounce();
           }
         }
-        else {
+        else
+        {
           canvas.drawCircle((float) mBoomshineBalls.get(i).getX(), (float) mBoomshineBalls.get(i).getY(), (float) mBoomshineBalls.get(i).getRadius(), mBallColors.get(i));
           mBoomshineBalls.get(i).moveAndBounce();
         }
@@ -129,35 +134,68 @@ public class BoomshineView extends View {
           mbBombMaxSize = mPresenter.isBombMaxSize();
         }
 
+        if (!mbBallsMaxSize)
+        {
+          mPresenter.hitBalls();
+          mPresenter.stopBallsHit();
+          mPresenter.expandBalls();
+          mbBallsMaxSize = mPresenter.ballsMaxSize();
+        }
+
         if (mbBombMaxSize)
         {
-          if (!mbBallsMaxSize)
+          if (!mPresenter.bombGone())
           {
-            mPresenter.hitBalls();
-            mPresenter.stopBallsHit();
-            mPresenter.expandBalls();
-            mbBallsMaxSize = mPresenter.ballsMaxSize();
+            mPresenter.shrinkBomb();
+            mbBombGone = mPresenter.bombGone();
           }
+        }
 
-          if (mbBallsMaxSize)
+        if (mbBallsMaxSize)
+        {
+          if (!mbBallsHitGone)
           {
-            if (!mPresenter.bombGone())
-            {
-              mPresenter.shrinkBomb();
-            }
+            mPresenter.shrinkBallsHit();
+            mbBallsHitGone = mPresenter.ballsGone();
+          }
+        }
 
-            if (!mbBallsHitGone)
-            {
-              mPresenter.shrinkBallsHit();
-              mbBallsHitGone = mPresenter.ballsGone ();
-            }
+        if (mbBallsHitGone)
+        {
+          mPresenter.stopAllBalls();
+          mPresenter.shrinkAllBalls ();
+        }
 
-            if (mbBallsHitGone)
+        if (mbBombGone)
+        {
+          if (!mbBallsHitGone && mbBallsMaxSize)
+          {
+            mPresenter.shrinkBallsHit();
+            mbBallsHitGone = mPresenter.ballsGone();
+          }
+          else if (!mbBallsMaxSize)
+          {
+            if (!mbAllBallsGone)
             {
               mPresenter.stopAllBalls();
               mPresenter.shrinkAllBalls ();
+
+              mbAllBallsGone = mPresenter.areAllGone();
             }
           }
+        }
+
+        if (mbAllBallsGone)
+        {
+          mbBombDown = false;
+          mbBallsHitGone = false;
+          mbBallsMaxSize = false;
+          mbBallsHitGone = false;
+          mbBombMaxSize = false;
+          mbAllBallsGone = false;
+          mbBombGone = false;
+
+          mPresenter.nextLevel();
         }
       }
     }
