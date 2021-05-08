@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     inflater.inflate (R.menu.menu, menu);
     return true;
   }
+
   /**
    *
    */
@@ -47,24 +48,28 @@ public class MainActivity extends AppCompatActivity {
     {
       case R.id.menuNewGame:
         Log.d("onOptionsItemSelected", "New Game");
+        mBoomshineView.stopMusic();
         mMode = "normal";
         newGame(mSeed, mMode);
         return true;
 
       case R.id.menuNightmareMode:
         Log.d("OnOptionsItemSelected", "New Game, Nightmare Mode");
+        mBoomshineView.stopMusic();
         mMode = "nightmare";
         newGame(mSeed, mMode);
         return true;
 
       case R.id.seedZero:
         Log.d("OnOptionsItemSelected", "Seed Zero");
+        mBoomshineView.stopMusic();
         mSeed = 0;
         newGame (mSeed, mMode);
         return true;
 
       case R.id.seedTimeOfDay:
         Log.d("OnOptionsItemSelected", "Seed Time of Day");
+        mBoomshineView.stopMusic();
         mSeed = Math.abs ((int) System.currentTimeMillis ());
         newGame (mSeed, mMode);
         return true;
@@ -98,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
   public void onConfigurationChanged (Configuration newConfig)
   {
     mBoomshineView.stopMusic();
-    newGame (mSeed, "normal");
+    newGame (mSeed, mMode);
   }
   /**
    *
