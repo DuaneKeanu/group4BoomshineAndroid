@@ -190,8 +190,6 @@ public class BoomshineView extends View {
 
         if (mbBombGone)
         {
-          mbIsHit = mPresenter.isHit();
-
           if (!mbBallsHitGone && mbBallsMaxSize)
           {
             mPresenter.shrinkBallsHit();
@@ -230,6 +228,10 @@ public class BoomshineView extends View {
             mbAllBallsGone = false;
             mbBombGone = false;
           }
+        }
+        else
+        {
+          mbIsHit = mPresenter.isHit();
         }
       }
     }
