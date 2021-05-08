@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
 
   private BoomshineView mBoomshineView;
 
+  /**
+   *
+   */
   private int mSeed = 0;
 
   @Override
@@ -23,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
     newGame (mSeed, "normal");
     setContentView(mBoomshineView);
   }
-
+  /**
+   *
+   */
   @Override
   public boolean onCreateOptionsMenu (Menu menu)
   {
@@ -31,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
     inflater.inflate (R.menu.menu, menu);
     return true;
   }
-
+  /**
+   *
+   */
   public boolean onMenuItemSelected (MenuItem menuItem)
   {
     switch (menuItem.getItemId ())
@@ -70,20 +77,26 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected (menuItem);
     }
   }
-
+  /**
+   *
+   */
   public void newGame (int seed, String mode)
   {
     mBoomshineView = new BoomshineView(this, seed, mode);
     setContentView(mBoomshineView);
   }
-
+  /**
+   *
+   */
   @Override
   public void onConfigurationChanged (Configuration newConfig)
   {
     mBoomshineView.stopMusic();
     newGame (mSeed, "normal");
   }
-
+  /**
+   *
+   */
   @Override
   protected void onStop() {
     mBoomshineView.stopMusic();

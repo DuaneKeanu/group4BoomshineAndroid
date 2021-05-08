@@ -53,7 +53,13 @@ public class BoomshineView extends View
   private MainActivity mMainActivity;
 
   private MediaPlayer mMP = MediaPlayer.create (getContext (), R.raw.normal);
-
+  /**
+   * Constructor that initializes all member variables
+   *
+   * @param context the context
+   * @param seed the seed
+   * @param mode the mode of the game
+   */
   public BoomshineView (Context context, long seed, String mode) {
     super (context);
     mSeed = seed;
@@ -84,7 +90,11 @@ public class BoomshineView extends View
       mMP.start();
     }
   }
-
+  /**
+   * On draw will draw all of the balls and bomb and expands the bombs/balls accordingly
+   *
+   * @param canvas the canvas
+   */
   protected void onDraw (Canvas canvas) {
     mBackground.setColor (getResources().getColor(R.color.cNavy));
     mTextColor.setColor (getResources().getColor(R.color.cWhite));
@@ -240,7 +250,9 @@ public class BoomshineView extends View
 
     invalidate ();
   }
-
+  /**
+   * sets random colors for the balls
+   */
   public void setColors () {
     mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
 
@@ -251,7 +263,9 @@ public class BoomshineView extends View
       invalidate();
     }
   }
-
+  /**
+   * Registers on touch events, places bomb where screen is touched
+   */
   public boolean onTouchEvent (MotionEvent event) {
     if (event.getAction () != MotionEvent.ACTION_DOWN)
     {
@@ -267,7 +281,11 @@ public class BoomshineView extends View
 
     return true;
   }
-
+  /**
+   * Draws the bottom bar
+   *
+   * @param canvas the canvas
+   */
   private void drawBottomBar (Canvas canvas) {
     canvas.drawText("Level:", 10, 40, mLevelColor);
     mLevel = mPresenter.getLevel();
@@ -290,7 +308,9 @@ public class BoomshineView extends View
     mHighScore = mPresenter.getHighScore();
     canvas.drawText(Integer.toString(mHighScore), 740, getHeight() - 10, mTextColor);
   }
-
+  /**
+   * Stops the media player then releases it
+   */
   public void stopMusic() {
     mMP.stop();
     mMP.release();
