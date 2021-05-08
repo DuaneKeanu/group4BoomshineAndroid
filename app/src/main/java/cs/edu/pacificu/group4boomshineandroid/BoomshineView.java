@@ -153,11 +153,12 @@ public class BoomshineView extends View {
           mbBombMaxSize = mPresenter.isBombMaxSize();
         }
 
+        mPresenter.hitBalls();
+        mPresenter.stopBallsHit();
+        mPresenter.expandBalls();
+
         if (!mbBallsMaxSize)
         {
-          mPresenter.hitBalls();
-          mPresenter.stopBallsHit();
-          mPresenter.expandBalls();
           mbBallsMaxSize = mPresenter.ballsMaxSize();
         }
 
@@ -176,7 +177,6 @@ public class BoomshineView extends View {
           {
             mPresenter.shrinkBallsHit();
             mbBallsHitGone = mPresenter.ballsGone();
-            //mCaught++;
           }
         }
 
@@ -203,27 +203,31 @@ public class BoomshineView extends View {
               mbAllBallsGone = mPresenter.areAllGone();
             }
           }
+
+
+          if (mbBombGone && !mbBallsMaxSize)
+          {
+            mPresenter.stopAllBalls();
+            mPresenter.shrinkAllBalls ();
+
+            mbAllBallsGone = mPresenter.areAllGone();
+          }
+
+          if (mbAllBallsGone)
+          {
+            mPresenter.nextLevel();
+            mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
+            setColors();
+
+            mbBombDown = false;
+            mbBallsHitGone = false;
+            mbBallsMaxSize = false;
+            mbBallsHitGone = false;
+            mbBombMaxSize = false;
+            mbAllBallsGone = false;
+            mbBombGone = false;
+          }
         }
-
-        /*if (mPresenter.winOrLose())
-        {
-          mbBombDown = false;
-          mbBallsHitGone = false;
-          mbBallsMaxSize = false;
-          mbBallsHitGone = false;
-          mbBombMaxSize = false;
-          mbAllBallsGone = false;
-          mbBombGone = false;
-
-          mPresenter.nextLevel();
-          mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
-        }
-        else {
-          //mPresenter.lose();
-        }*/
-
-        mPresenter.nextLevel();
-        //mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
       }
     }
 
@@ -233,6 +237,8 @@ public class BoomshineView extends View {
   }
 
   public void setColors () {
+    mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
+
     for (int i = 0; i < mBoomshineBalls.size(); i++) {
       Random random = new Random();
       mBallColors.add(new Paint());
