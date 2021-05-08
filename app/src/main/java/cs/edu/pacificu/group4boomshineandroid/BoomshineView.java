@@ -1,33 +1,22 @@
 package cs.edu.pacificu.group4boomshineandroid;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import group4Boomshine.BoomshineBall;
 import group4Boomshine.BoomshinePresenter;
-import group4Boomshine.BoundedMovingBall;
 import group4Boomshine.ExpandingBall;
 
-public class BoomshineView extends View {
-
-  private final boolean NO_RESTART = false;
-  private final boolean RESTART = true;
-  private final boolean BOMB = true;
-  private final boolean NO_BOMB = false;
-
+public class BoomshineView extends View
+{
   private BoomshinePresenter mPresenter;
   private long mSeed;
   private Paint mBackground = new Paint();

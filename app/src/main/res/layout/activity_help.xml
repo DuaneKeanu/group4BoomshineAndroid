@@ -23,8 +23,8 @@
 
     <TextView
         android:id="@+id/RuleOne"
-        android:layout_width="395dp"
-        android:layout_height="46dp"
+        android:layout_width="377dp"
+        android:layout_height="33dp"
         android:text="@string/sRuleOne"
         android:textColor="@color/cBlack"
         android:textSize="18sp"
@@ -36,8 +36,8 @@
 
     <TextView
         android:id="@+id/RuleTwo"
-        android:layout_width="395dp"
-        android:layout_height="44dp"
+        android:layout_width="371dp"
+        android:layout_height="53dp"
         android:text="@string/sRuleTwo"
         android:textColor="@color/cBlack"
         android:textSize="18sp"
@@ -50,8 +50,8 @@
 
     <TextView
         android:id="@+id/RuleThree"
-        android:layout_width="393dp"
-        android:layout_height="45dp"
+        android:layout_width="362dp"
+        android:layout_height="49dp"
         android:text="@string/sRuleThree"
         android:textColor="@color/cBlack"
         android:textSize="18sp"
@@ -64,8 +64,8 @@
 
     <TextView
         android:id="@+id/RuleFour"
-        android:layout_width="393dp"
-        android:layout_height="46dp"
+        android:layout_width="360dp"
+        android:layout_height="42dp"
         android:text="@string/sRuleFour"
         android:textColor="@color/cBlack"
         android:textSize="18sp"
@@ -78,7 +78,7 @@
 
     <TextView
         android:id="@+id/RuleFive"
-        android:layout_width="393dp"
+        android:layout_width="361dp"
         android:layout_height="47dp"
         android:text="@string/sRuleFive"
         android:textColor="@color/cBlack"
@@ -92,8 +92,8 @@
 
     <TextView
         android:id="@+id/RuleSix"
-        android:layout_width="396dp"
-        android:layout_height="45dp"
+        android:layout_width="347dp"
+        android:layout_height="47dp"
         android:text="@string/sRuleSix"
         android:textColor="@color/cBlack"
         android:textSize="18sp"
