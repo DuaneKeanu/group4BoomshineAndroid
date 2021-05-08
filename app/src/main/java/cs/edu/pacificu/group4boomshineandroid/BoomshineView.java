@@ -93,7 +93,6 @@ public class BoomshineView extends View {
     {
       mMP = MediaPlayer.create (getContext (), R.raw.normal);
       mMP.start();
-      mMP.start ();
     }
   }
 
