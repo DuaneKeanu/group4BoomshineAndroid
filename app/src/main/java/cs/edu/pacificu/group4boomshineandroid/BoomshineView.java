@@ -284,6 +284,7 @@ public class BoomshineView extends View {
     mToCatch = mPresenter.getLevel();
     canvas.drawText(Integer.toString(mToCatch), 205, getHeight() - 10, mTextColor);
     canvas.drawText("Balls caught:", 240, getHeight() - 10, mTextColor);
+    mCaught = mPresenter.numBallsHit();
     canvas.drawText(Integer.toString(mCaught), 420, getHeight() - 10, mTextColor);
     canvas.drawText("Score:", 455, getHeight() - 10, mTextColor);
     mScore = mPresenter.getCurrentScore();
