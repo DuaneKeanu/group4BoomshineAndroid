@@ -57,6 +57,7 @@ public class BoomshineView extends View {
   private boolean mbBallsMaxSize;
   private boolean mbBombMaxSize;
   private boolean mbBombGone;
+  private boolean mbIsHit;
 
   private MainActivity mMainActivity;
 
@@ -77,6 +78,7 @@ public class BoomshineView extends View {
     mbBombMaxSize = false;
     mbAllBallsGone = false;
     mbBombGone = false;
+    mbIsHit = false;
 
     if (mode.equals("nightmare")) {
       mPresenter.setNightmareOn();
@@ -188,6 +190,8 @@ public class BoomshineView extends View {
 
         if (mbBombGone)
         {
+          mbIsHit = mPresenter.isHit();
+
           if (!mbBallsHitGone && mbBallsMaxSize)
           {
             mPresenter.shrinkBallsHit();
@@ -205,7 +209,7 @@ public class BoomshineView extends View {
           }
 
 
-          if (mbBombGone && !mbBallsMaxSize)
+          if (mbBombGone && !mbIsHit)
           {
             mPresenter.stopAllBalls();
             mPresenter.shrinkAllBalls ();
