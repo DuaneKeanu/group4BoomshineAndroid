@@ -10,6 +10,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,6 +32,9 @@ public class BoomshineView extends View {
   private Paint mBackground = new Paint();
   private Paint mBallColor = new Paint();
   private Paint mNightmareColor = new Paint();
+  private Paint mTextColor = new Paint();
+  private Paint mBarColor = new Paint();
+  private Paint mLevelColor = new Paint();
   private ArrayList<BoomshineBall> mBoomshineBalls;
   private ArrayList<Paint> mBallColors = new ArrayList<Paint>();
   private ExpandingBall mBomb;
@@ -38,6 +42,12 @@ public class BoomshineView extends View {
   private int mHeight;
   private int mWidth;
   private int mNightmare = 0;
+
+  private int mToCatch;
+  private int mCaught = 0;
+  private int mScore;
+  private int mLevel;
+  private int mHighScore;
 
   private boolean mbNightmareTrigger = false;
   private boolean mbBombDown;
@@ -47,6 +57,7 @@ public class BoomshineView extends View {
   private boolean mbBombMaxSize;
   private boolean mbBombGone;
 
+  private MainActivity mMainActivity;
 
   public BoomshineView (Context context, long seed, String mode) {
     super (context);
@@ -54,6 +65,8 @@ public class BoomshineView extends View {
 
     setFocusable(true);
     setFocusableInTouchMode(true);
+
+    this.mMainActivity = (MainActivity) context;
 
     mPresenter = new BoomshinePresenter(seed);
     mbBombDown = false;
@@ -71,6 +84,11 @@ public class BoomshineView extends View {
 
   protected void onDraw (Canvas canvas) {
     mBackground.setColor (getResources().getColor(R.color.cNavy));
+    mTextColor.setColor (getResources().getColor(R.color.cWhite));
+    mTextColor.setTextSize(28);
+    mLevelColor.setColor(getResources().getColor(R.color.cBlack));
+    mLevelColor.setTextSize(40);
+    mBarColor.setColor (getResources().getColor(R.color.cPurple));
     canvas.drawRect(0, 0, getWidth(), getHeight(), mBackground);
     mNightmareColor.setColor (getResources().getColor(R.color.cNavy));
 
@@ -157,6 +175,7 @@ public class BoomshineView extends View {
           {
             mPresenter.shrinkBallsHit();
             mbBallsHitGone = mPresenter.ballsGone();
+            //mCaught++;
           }
         }
 
@@ -185,7 +204,7 @@ public class BoomshineView extends View {
           }
         }
 
-        if (mbAllBallsGone)
+        /*if (mPresenter.winOrLose())
         {
           mbBombDown = false;
           mbBallsHitGone = false;
@@ -196,9 +215,17 @@ public class BoomshineView extends View {
           mbBombGone = false;
 
           mPresenter.nextLevel();
+          mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
         }
+        else {
+          //mPresenter.lose();
+        }
+
+        //mPresenter.nextLevel();*/
       }
     }
+
+    drawBottomBar(canvas);
 
     invalidate ();
   }
@@ -234,5 +261,24 @@ public class BoomshineView extends View {
     }
 
     return true;
+  }
+
+  private void drawBottomBar (Canvas canvas) {
+    canvas.drawText("Level:", 10, 40, mLevelColor);
+    mLevel = mPresenter.getLevel();
+    canvas.drawText(Integer.toString(mLevel), 120, 40, mLevelColor);
+
+    canvas.drawRect(0, getHeight() - 50, getWidth(), getHeight(), mBarColor);
+    canvas.drawText("Balls to catch:", 10, getHeight() - 10, mTextColor);
+    mToCatch = mPresenter.getLevel();
+    canvas.drawText(Integer.toString(mToCatch), 205, getHeight() - 10, mTextColor);
+    canvas.drawText("Balls caught:", 240, getHeight() - 10, mTextColor);
+    canvas.drawText(Integer.toString(mCaught), 420, getHeight() - 10, mTextColor);
+    canvas.drawText("Score:", 455, getHeight() - 10, mTextColor);
+    mScore = mPresenter.getCurrentScore();
+    canvas.drawText(Integer.toString(mScore), 550, getHeight() - 10, mTextColor);
+    canvas.drawText("High Score:", 585, getHeight() - 10, mTextColor);
+    mHighScore = mPresenter.getHighScore();
+    canvas.drawText(Integer.toString(mHighScore), 740, getHeight() - 10, mTextColor);
   }
 }

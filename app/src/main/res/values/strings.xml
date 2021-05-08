@@ -17,4 +17,13 @@
     <string name="sBottomBar">Bottom Bar</string>
     <string name="sHighScore">High Score:</string>
     <string name="sScore">Score:</string>
+    <string name="sToCatch">Balls to catch:</string>
+    <string name="sCaught">Balls caught:</string>
+    <string name="sLevel">Level:</string>
+    <string name="sNumToCatch">0</string>
+    <string name="sNumCaught">0</string>
+    <string name="sLevelNum">0</string>
+    <string name="sNumScore">0</string>
+    <string name="sSpaces">   </string>
+
 </resources>
