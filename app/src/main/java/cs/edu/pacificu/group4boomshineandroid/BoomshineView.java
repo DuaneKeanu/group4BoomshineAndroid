@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,6 +50,7 @@ public class BoomshineView extends View {
   private int mLevel;
   private int mHighScore;
   private int mLives;
+  private int barHeight = 50;
 
   private boolean mbNightmareTrigger = false;
   private boolean mbBombDown;
@@ -60,6 +62,8 @@ public class BoomshineView extends View {
   private boolean mbIsHit;
 
   private MainActivity mMainActivity;
+
+  private MediaPlayer mMP = MediaPlayer.create (getContext (), R.raw.normal);
 
   public BoomshineView (Context context, long seed, String mode) {
     super (context);
@@ -81,7 +85,15 @@ public class BoomshineView extends View {
     mbIsHit = false;
 
     if (mode.equals("nightmare")) {
+      mMP = MediaPlayer.create (getContext (), R.raw.nightmare);
+      mMP.start();
       mPresenter.setNightmareOn();
+    }
+    else
+    {
+      mMP = MediaPlayer.create (getContext (), R.raw.normal);
+      mMP.start();
+      mMP.start ();
     }
   }
 
@@ -109,7 +121,7 @@ public class BoomshineView extends View {
 
     if (!mPresenter.gameStatus())
     {
-      mHeight = getHeight();
+      mHeight = getHeight() - barHeight;
       mWidth = getWidth();
 
       mPresenter.setHeight (mHeight);
@@ -252,14 +264,6 @@ public class BoomshineView extends View {
     }
   }
 
-  public void onWin () {
-
-  }
-
-  public void onLose () {
-
-  }
-
   public boolean onTouchEvent (MotionEvent event) {
     if (event.getAction () != MotionEvent.ACTION_DOWN)
     {
@@ -284,7 +288,7 @@ public class BoomshineView extends View {
     mLives = mPresenter.getNumLives();
     canvas.drawText(Integer.toString(mLives), 730, 40, mLevelColor);
 
-    canvas.drawRect(0, getHeight() - 50, getWidth(), getHeight(), mBarColor);
+    canvas.drawRect(0, getHeight() - (float) barHeight, getWidth(), getHeight(), mBarColor);
     canvas.drawText("Balls to catch:", 10, getHeight() - 10, mTextColor);
     mToCatch = mPresenter.getLevel();
     canvas.drawText(Integer.toString(mToCatch), 205, getHeight() - 10, mTextColor);
@@ -297,5 +301,10 @@ public class BoomshineView extends View {
     canvas.drawText("High Score:", 585, getHeight() - 10, mTextColor);
     mHighScore = mPresenter.getHighScore();
     canvas.drawText(Integer.toString(mHighScore), 740, getHeight() - 10, mTextColor);
+  }
+
+  public void stopMusic() {
+    mMP.stop();
+    mMP.release();
   }
 }

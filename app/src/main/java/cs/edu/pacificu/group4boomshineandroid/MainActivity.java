@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,8 +58,16 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  public void newGame (int seed, String mode) {
+  public void newGame (int seed, String mode)
+  {
+    mBoomshineView.stopMusic();
     mBoomshineView = new BoomshineView(this, seed, mode);
     setContentView(mBoomshineView);
+  }
+
+  @Override
+  protected void onPause()
+  {
+    super.onPause();
   }
 }
