@@ -48,6 +48,7 @@ public class BoomshineView extends View {
   private int mScore;
   private int mLevel;
   private int mHighScore;
+  private int mLives;
 
   private boolean mbNightmareTrigger = false;
   private boolean mbBombDown;
@@ -62,6 +63,7 @@ public class BoomshineView extends View {
   public BoomshineView (Context context, long seed, String mode) {
     super (context);
     mSeed = seed;
+    mLives = 3;
 
     setFocusable(true);
     setFocusableInTouchMode(true);
@@ -219,9 +221,10 @@ public class BoomshineView extends View {
         }
         else {
           //mPresenter.lose();
-        }
+        }*/
 
-        //mPresenter.nextLevel();*/
+        mPresenter.nextLevel();
+        //mBoomshineBalls = mPresenter.getBoomshineBalls().getBoomshineBalls();
       }
     }
 
@@ -267,6 +270,8 @@ public class BoomshineView extends View {
     canvas.drawText("Level:", 10, 40, mLevelColor);
     mLevel = mPresenter.getLevel();
     canvas.drawText(Integer.toString(mLevel), 120, 40, mLevelColor);
+    canvas.drawText("Lives:", 620, 40, mLevelColor);
+    canvas.drawText(Integer.toString(mLives), 730, 40, mLevelColor);
 
     canvas.drawRect(0, getHeight() - 50, getWidth(), getHeight(), mBarColor);
     canvas.drawText("Balls to catch:", 10, getHeight() - 10, mTextColor);
