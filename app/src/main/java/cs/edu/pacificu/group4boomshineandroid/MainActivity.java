@@ -15,15 +15,17 @@ public class MainActivity extends AppCompatActivity {
 
   private BoomshineView mBoomshineView;
 
+  private int mSeed;
+  private String mMode;
   /**
    *
    */
-  private int mSeed = 0;
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    mSeed = 0;
+    mMode = "normal";
     super.onCreate(savedInstanceState);
-    newGame (mSeed, "normal");
+    newGame (mSeed, mMode);
     setContentView(mBoomshineView);
   }
   /**
@@ -45,22 +47,26 @@ public class MainActivity extends AppCompatActivity {
     {
       case R.id.menuNewGame:
         Log.d("onOptionsItemSelected", "New Game");
-        newGame(mSeed, "normal");
+        mMode = "normal";
+        newGame(mSeed, mMode);
         return true;
 
       case R.id.menuNightmareMode:
         Log.d("OnOptionsItemSelected", "New Game, Nightmare Mode");
-        newGame(mSeed, "nightmare");
+        mMode = "nightmare";
+        newGame(mSeed, mMode);
         return true;
 
       case R.id.seedZero:
         Log.d("OnOptionsItemSelected", "Seed Zero");
         mSeed = 0;
+        newGame (mSeed, mMode);
         return true;
 
       case R.id.seedTimeOfDay:
         Log.d("OnOptionsItemSelected", "Seed Time of Day");
         mSeed = Math.abs ((int) System.currentTimeMillis ());
+        newGame (mSeed, mMode);
         return true;
 
       case R.id.about:
