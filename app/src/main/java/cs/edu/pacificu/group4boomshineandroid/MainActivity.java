@@ -15,10 +15,12 @@ public class MainActivity extends AppCompatActivity {
 
   private BoomshineView mBoomshineView;
 
+  private int mSeed = 0;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    newGame (0, "normal");
+    newGame (mSeed, "normal");
     setContentView(mBoomshineView);
   }
 
@@ -35,13 +37,23 @@ public class MainActivity extends AppCompatActivity {
     switch (menuItem.getItemId ())
     {
       case R.id.menuNewGame:
-        Log.d("onOptoinsItemSelected", "New Game");
-        newGame(0, "normal");
+        Log.d("onOptionsItemSelected", "New Game");
+        newGame(mSeed, "normal");
         return true;
 
       case R.id.menuNightmareMode:
         Log.d("OnOptionsItemSelected", "New Game, Nightmare Mode");
-        newGame(0, "nightmare");
+        newGame(mSeed, "nightmare");
+        return true;
+
+      case R.id.seedZero:
+        Log.d("OnOptionsItemSelected", "Seed Zero");
+        mSeed = 0;
+        return true;
+
+      case R.id.seedTimeOfDay:
+        Log.d("OnOptionsItemSelected", "Seed Time of Day");
+        mSeed = Math.abs ((int) System.currentTimeMillis ());
         return true;
 
       case R.id.about:
@@ -69,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
   public void onConfigurationChanged (Configuration newConfig)
   {
     mBoomshineView.stopMusic();
-    newGame (0, "normal");
+    newGame (mSeed, "normal");
   }
 
   @Override

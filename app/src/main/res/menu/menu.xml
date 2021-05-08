@@ -15,15 +15,35 @@
         app:showAsAction="never"
         android:title="@string/sNightmareMode" />
     <item
+        android:id="@+id/chooseSeed"
+        android:orderInCategory="2"
+        app:showAsAction="never"
+        android:title="@string/sChooseSeed" >
+        <menu>
+            <item
+                android:id="@+id/seedZero"
+                android:onClick="onMenuItemSelected"
+                android:orderInCategory="0"
+                app:showAsAction="never"
+                android:title="@string/sSeedZero" />
+            <item
+                android:id="@+id/seedTimeOfDay"
+                android:onClick="onMenuItemSelected"
+                android:orderInCategory="1"
+                app:showAsAction="never"
+                android:title="@string/sSeedTimeOfDay" />
+        </menu>
+    </item>
+    <item
         android:id="@+id/help"
         android:onClick="onMenuItemSelected"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         app:showAsAction="never"
         android:title="@string/sHelp" />
     <item
         android:id="@+id/about"
         android:onClick="onMenuItemSelected"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:title="@string/sAbout"
         app:showAsAction="never" />
 </menu>
