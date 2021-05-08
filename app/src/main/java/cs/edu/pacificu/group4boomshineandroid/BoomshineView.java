@@ -63,7 +63,6 @@ public class BoomshineView extends View {
   public BoomshineView (Context context, long seed, String mode) {
     super (context);
     mSeed = seed;
-    mLives = 3;
 
     setFocusable(true);
     setFocusableInTouchMode(true);
@@ -271,6 +270,7 @@ public class BoomshineView extends View {
     mLevel = mPresenter.getLevel();
     canvas.drawText(Integer.toString(mLevel), 120, 40, mLevelColor);
     canvas.drawText("Lives:", 620, 40, mLevelColor);
+    mLives = mPresenter.getNumLives();
     canvas.drawText(Integer.toString(mLives), 730, 40, mLevelColor);
 
     canvas.drawRect(0, getHeight() - 50, getWidth(), getHeight(), mBarColor);
